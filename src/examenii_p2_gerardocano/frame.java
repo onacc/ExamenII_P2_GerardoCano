@@ -34,8 +34,18 @@ public class frame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        popupmenu = new javax.swing.JPopupMenu();
+        listarequipospart = new javax.swing.JMenuItem();
+        tablapos = new javax.swing.JMenuItem();
+        popup2 = new javax.swing.JPopupMenu();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
+        arbol = new javax.swing.JTree();
+
+        listarequipospart.setText("jMenuItem1");
+        popupmenu.add(listarequipospart);
+
+        tablapos.setText("jMenuItem2");
+        popupmenu.add(tablapos);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,8 +58,13 @@ public class frame extends javax.swing.JFrame {
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Q5");
         treeNode1.add(treeNode2);
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jScrollPane1.setViewportView(jTree1);
+        arbol.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        arbol.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                arbolMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(arbol);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -71,11 +86,22 @@ public class frame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void arbolMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_arbolMouseClicked
+        DefaultTreeModel model = (DefaultTreeModel) arbol.getModel();
+        if(evt.getButton()==3){
+            if(arbol.getSelectionModel() instanceof Torneo){
+                popupmenu.show(arbol, evt.getX(), evt.getY());
+            }else{
+                popup2.show(arbol, evt.getX(), evt.getY());
+            }
+        }
+    }//GEN-LAST:event_arbolMouseClicked
+
     /**
      * @param args the command line arguments
      */
     public void listararbol(Deporte deporte, DefaultMutableTreeNode nodo){  
-    //recursivo listar arbol
+    
     try{
         for(Torneo temp:deporte.getTorneos()){
             if( temp instanceof Torneo ){                
@@ -125,7 +151,11 @@ public class frame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTree arbol;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTree jTree1;
+    private javax.swing.JMenuItem listarequipospart;
+    private javax.swing.JPopupMenu popup2;
+    private javax.swing.JPopupMenu popupmenu;
+    private javax.swing.JMenuItem tablapos;
     // End of variables declaration//GEN-END:variables
 }

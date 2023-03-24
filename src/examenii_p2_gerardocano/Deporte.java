@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class Deporte {
     private ArrayList<Torneo> torneos = new ArrayList();
-    private String periodo, nombre;
+    private String  nombre;
 
     public String getNombre() {
         return nombre;
@@ -22,8 +22,8 @@ public class Deporte {
         this.nombre = nombre;
     }
 
-    public Deporte(String periodo, String nombre) {
-        this.periodo = periodo;
+    public Deporte( String nombre) {
+        
         this.nombre = nombre;
     }
     
@@ -36,22 +36,14 @@ public class Deporte {
         this.torneos = torneos;
     }
 
-    public String getPeriodo() {
-        return periodo;
-    }
-
-    public void setPeriodo(String periodo) {
-        this.periodo = periodo;
-    }
+ 
 
     @Override
     public String toString() {
-        return "Deporte{" + "torneos=" + torneos + ", periodo=" + periodo + '}';
+        return "Deporte{" + "torneos=" + torneos + '}';
     }
 
-    public Deporte(String periodo) {
-        this.periodo = periodo;
-    }
+    
     public Deporte(){
     }
 }

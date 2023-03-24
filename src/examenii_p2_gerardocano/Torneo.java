@@ -11,9 +11,22 @@ import java.util.ArrayList;
  * @author gcano
  */
 public class Torneo {
-    private String nombre;
+    private String nombre,periodo;
     private ArrayList<Equipo> equipos = new ArrayList();
     private ArrayList<Partidas> partidos = new ArrayList();
+
+    public String getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(String periodo) {
+        this.periodo = periodo;
+    }
+
+    public Torneo(String nombre, String periodo) {
+        this.nombre = nombre;
+        this.periodo = periodo;
+    }
 
     public ArrayList<Partidas> getPartidos() {
         return partidos;
