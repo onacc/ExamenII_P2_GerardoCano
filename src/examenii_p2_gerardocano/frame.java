@@ -5,6 +5,7 @@
 package examenii_p2_gerardocano;
 
 import java.io.File;
+import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -18,13 +19,12 @@ public class frame extends javax.swing.JFrame {
      * Creates new form frame
      */
     public frame() {
-        
+
         pack();
-        
-        
+
         initComponents();
-        
-    }   
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,6 +42,7 @@ public class frame extends javax.swing.JFrame {
         add = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         arbol = new javax.swing.JTree();
+        jButton1 = new javax.swing.JButton();
 
         listarequipospart.setText("jMenuItem1");
         popupmenu.add(listarequipospart);
@@ -76,13 +77,22 @@ public class frame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(arbol);
 
+        jButton1.setText("Actualizar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -90,50 +100,74 @@ public class frame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void arbolMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_arbolMouseClicked
-        DefaultTreeModel modelo= (DefaultTreeModel) arbol.getModel();
-        DefaultMutableTreeNode raiz= (DefaultMutableTreeNode) modelo.getRoot();
-        DefaultMutableTreeNode seleccionado = (DefaultMutableTreeNode)arbol.getSelectionPath().getLastPathComponent(); 
-        if(evt.getButton()==3){
-            if(seleccionado.getUserObject() instanceof Torneo){
+        DefaultTreeModel modelo = (DefaultTreeModel) arbol.getModel();
+        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+        DefaultMutableTreeNode seleccionado = (DefaultMutableTreeNode) arbol.getSelectionPath().getLastPathComponent();
+        if (evt.getButton() == 3) {
+            if (seleccionado.getUserObject() instanceof Torneo) {
                 popupmenu.show(arbol, evt.getX(), evt.getY());
-            }else{
+            } else {
                 popup2.show(arbol, evt.getX(), evt.getY());
             }
         }
     }//GEN-LAST:event_arbolMouseClicked
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
-       
+        adminDeporte ad = new adminDeporte("./Deportes");
+
+        ad.cargarArchivo();
+        DefaultMutableTreeNode seleccionado = (DefaultMutableTreeNode) arbol.getSelectionPath().getLastPathComponent();
+        String name = JOptionPane.showInputDialog(this, "Ingrese nombre de deporte");
+        
+        Deporte nuevo = new Deporte(name);
+        DefaultMutableTreeNode n = new DefaultMutableTreeNode(nuevo.getNombre());
+        seleccionado.add(n);
+        ad.setDeporte(nuevo);
+        ad.escribirArchivo();
+        
+
+
     }//GEN-LAST:event_addActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public void listararbol(Deporte deporte, DefaultMutableTreeNode nodo){  
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+      
+        adminDeporte ad = new adminDeporte("./Deportes");
+        ad.cargarArchivo();
+       DefaultTreeModel m=(DefaultTreeModel) arbol.getModel();
+      listartree(ad.getArchivo(),(DefaultMutableTreeNode)m.getRoot());
+      
+    }//GEN-LAST:event_jButton1ActionPerformed
+    public void listartree(File p_raiz, DefaultMutableTreeNode nodo){  
     
     try{
-        for(Torneo temp:deporte.getTorneos()){
-            if( temp instanceof Torneo ){                
-                DefaultMutableTreeNode n=new DefaultMutableTreeNode(temp.getNombre());
+        for(File temp:p_raiz.listFiles()){
+            if( temp.isFile() ){                
+                DefaultMutableTreeNode n=new DefaultMutableTreeNode(temp.getName());
                 nodo.add(n);      
             }else{
-                DefaultMutableTreeNode n=new DefaultMutableTreeNode(temp.getNombre());
+                DefaultMutableTreeNode n=new DefaultMutableTreeNode(temp.getName());
                 nodo.add(n);  
-                listararbol(deporte,n);
+                listartree(temp,n);
             }
         } 
     }
     catch(Exception e){        
     }
 }
-
+    /**
+     * @param args the command line arguments
+     */
+    
+   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -169,6 +203,7 @@ public class frame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem add;
     private javax.swing.JTree arbol;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem listarequipospart;
     private javax.swing.JPopupMenu popup2;

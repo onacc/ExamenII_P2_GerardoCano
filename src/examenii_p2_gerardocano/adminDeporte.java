@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class adminDeporte {
     private ArrayList<Deporte> lista = new ArrayList();
     private File archivo = null;
-    private adminDeporte(String path){
+    public adminDeporte(String path){
         archivo = new File(path);
     }
 
@@ -44,16 +44,16 @@ public class adminDeporte {
 
     public void cargarArchivo() {
         try {            
-            torneos = new ArrayList();
-            Torneo temp;
+            lista = new ArrayList();
+            Deporte temp;
             if (archivo.exists()) {
                 FileInputStream entrada
                     = new FileInputStream(archivo);
                 ObjectInputStream objeto
                     = new ObjectInputStream(entrada);
                 try {
-                    while ((temp = (Torneo) objeto.readObject()) != null) {
-                        torneos.add(temp);
+                    while ((temp = (Deporte) objeto.readObject()) != null) {
+                        lista.add(temp);
                     }
                 } catch (EOFException e) {
                     //encontro el final del archivo
@@ -72,7 +72,7 @@ public class adminDeporte {
         try {
             fw = new FileOutputStream(archivo);
             bw = new ObjectOutputStream(fw);
-            for (Torneo t : torneos) {
+            for (Deporte t : lista) {
                 bw.writeObject(t);
             }
             bw.flush();
