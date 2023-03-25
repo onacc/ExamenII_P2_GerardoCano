@@ -18,9 +18,10 @@ public class frame extends javax.swing.JFrame {
      * Creates new form frame
      */
     public frame() {
+        
         pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
+        
+        
         initComponents();
         
     }   
@@ -38,6 +39,7 @@ public class frame extends javax.swing.JFrame {
         listarequipospart = new javax.swing.JMenuItem();
         tablapos = new javax.swing.JMenuItem();
         popup2 = new javax.swing.JPopupMenu();
+        add = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         arbol = new javax.swing.JTree();
 
@@ -46,6 +48,14 @@ public class frame extends javax.swing.JFrame {
 
         tablapos.setText("jMenuItem2");
         popupmenu.add(tablapos);
+
+        add.setText("Agregar Deporte");
+        add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addActionPerformed(evt);
+            }
+        });
+        popup2.add(add);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -87,15 +97,21 @@ public class frame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void arbolMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_arbolMouseClicked
-        DefaultTreeModel model = (DefaultTreeModel) arbol.getModel();
+        DefaultTreeModel modelo= (DefaultTreeModel) arbol.getModel();
+        DefaultMutableTreeNode raiz= (DefaultMutableTreeNode) modelo.getRoot();
+        DefaultMutableTreeNode seleccionado = (DefaultMutableTreeNode)arbol.getSelectionPath().getLastPathComponent(); 
         if(evt.getButton()==3){
-            if(arbol.getSelectionModel() instanceof Torneo){
+            if(seleccionado.getUserObject() instanceof Torneo){
                 popupmenu.show(arbol, evt.getX(), evt.getY());
             }else{
                 popup2.show(arbol, evt.getX(), evt.getY());
             }
         }
     }//GEN-LAST:event_arbolMouseClicked
+
+    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
+       
+    }//GEN-LAST:event_addActionPerformed
 
     /**
      * @param args the command line arguments
@@ -151,6 +167,7 @@ public class frame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem add;
     private javax.swing.JTree arbol;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem listarequipospart;
